@@ -75,3 +75,45 @@ def angular_acceleration(
         )
 
     return angular_acceleration
+
+def quaternion_to_rotation_matrix(quaternion):
+    
+    q0, q1, q2, q3 = quaternion
+    
+    rotation_matrix = np.array([
+        [
+         1 - 2*(q2**2 + q3**2),
+         2*(q1*q2 - q0*q3),
+         2*(q1*q3 + q0*q2)
+        ],
+        
+        [
+        2*(q1*q2 + q0*q3),
+        1 - 2*(q1**2 + q3**2),
+        2*(q2*q3 - q0*q1)
+        ],
+        
+        [
+        2*(q1*q3 - q0*q2),
+        2*(q2*q3 + q0*q1),
+        1 - 2*(q1**2 + q2**2)
+        ]
+        
+        ])
+    return rotation_matrix
+
+def quaternion_derivative(quaternion, angular_velocity):
+    
+    q0, q1, q2, q3 = quaternion
+    p, q, r = angular_velocity
+    
+    omega_matrix = np.array([
+        [0, -p, -q, -r],
+        [p, 0, r, -q],
+        [q, -r, 0, p],
+        [r, q, -p, 0]
+        ])
+    
+    quaternion_dot = 0.5 * omega_matrix @ quaternion
+    
+    return quaternion_dot
