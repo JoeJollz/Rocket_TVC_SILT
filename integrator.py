@@ -115,7 +115,7 @@ def rk4_step(
             *(
                 k1["angular_velocity"]
                 + 2*k2["angular_velocity"]
-                + 2*k3["angular_velocty"]
+                + 2*k3["angular_velocity"]
                 + k4["angular_velocity"]
                 )
             )
