@@ -36,7 +36,29 @@ def translational_acceleration(
         Translational acceleration in the inertial frame (m/s^2)
         
     '''
-    raise NotImplementedError
+    
+    force_body = np.asarray(force_body, dtype = float)
+    
+    rotation_matrix = quaternion_to_rotation_matrix(
+        quaternion
+        )
+    
+    force_inertial_from_body = rotation_matrix @ force_body
+    
+    if force_inertial is not None:
+        force_inertial = np.asarray(
+            force_inertial,
+            dtype = float
+            )
+        total_force_inertial = (
+            force_inertial_from_body + force_inertial
+            )
+    else:
+        total_force_inertial = force_inertial_from_body
+        
+    acceleration = total_force_inertial / mass
+    
+    return acceleration
     
 def angular_acceleration(
         inertia,
@@ -132,16 +154,16 @@ def state_derivative(
     
     position_dot = velocity
     
-    rotation_matrix = quaternion_to_rotation_matrix(
+    acceleration = translational_acceleration(
+        rocket.mass,
+        force_body,
         quaternion
         )
     
-    force_body = np.asarray(force_body, dtype = float)
-    force_inertial = rotation_matrix @ force_body
-    
-    acceleration = force_inertial / rocket.mass
-    
-    quaternion_dot = quaternion_derivative(quaternion, angular_velocity)
+    quaternion_dot = quaternion_derivative(
+        quaternion, 
+        angular_velocity
+        )
     
     angular_acceleration_value = angular_acceleration(
         rocket.inertia,
