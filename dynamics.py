@@ -117,3 +117,29 @@ def quaternion_derivative(quaternion, angular_velocity):
     quaternion_dot = 0.5 * omega_matrix @ quaternion
     
     return quaternion_dot
+
+
+def state_derivative(
+        state,
+        mass,
+        force_body,
+        moment_body
+        ):
+    
+    position = state.position
+    velocity = state.velocity
+    quaternion = state.quaternion
+    angular_velocity = state.angular_velocity
+    
+    position_dot = velocity
+    
+    rotation_matrix = quaternion_to_rotation_matrix(
+        quaternion
+        )
+    
+    force_body = np.asarray(force_body, dtype = float)
+    force_inertial = rotation_matrix @ force_body
+    
+    quaternion_dot = quaternion_derivative(quaternion, angular_velocity)
+    
+    raise NotImplementedError
