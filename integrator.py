@@ -120,6 +120,6 @@ def rk4_step(
                 )
             )
         )
-    new_state.normalize_quaternion()
+    new_state.normalise_quaternion()
     
     return new_state
