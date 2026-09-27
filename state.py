@@ -9,7 +9,7 @@ import numpy as np
 
 class RocketState:
     
-    def __init(
+    def __init__(
             self,
             position,
             velocity,
