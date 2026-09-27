@@ -121,12 +121,11 @@ def quaternion_derivative(quaternion, angular_velocity):
 
 def state_derivative(
         state,
-        mass,
+        rocket,
         force_body,
         moment_body
         ):
     
-    position = state.position
     velocity = state.velocity
     quaternion = state.quaternion
     angular_velocity = state.angular_velocity
@@ -140,6 +139,19 @@ def state_derivative(
     force_body = np.asarray(force_body, dtype = float)
     force_inertial = rotation_matrix @ force_body
     
+    acceleration = force_inertial / rocket.mass
+    
     quaternion_dot = quaternion_derivative(quaternion, angular_velocity)
     
-    raise NotImplementedError
+    angular_acceleration_value = angular_acceleration(
+        rocket.inertia,
+        angular_velocity,
+        moment_body
+        )
+    
+    return {
+        "position": position_dot,
+        "velocity": acceleration,
+        "quaternion": quaternion_dot,
+        "angular_velocity": angular_acceleration_value
+        }
