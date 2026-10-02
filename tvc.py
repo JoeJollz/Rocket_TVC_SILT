@@ -74,6 +74,7 @@ class TVC:
             -self.max_angle,
             self.max_angle
             )
+        return self.current_angle
         
     def reset(self, angle = 0.0):
         
@@ -84,6 +85,6 @@ class TVC:
         
         self.current_angle = float(angle)
         
-    def get_anlge(self):
+    def get_angle(self):
         
         return self.current_angle
