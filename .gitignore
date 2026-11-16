@@ -1,0 +1,12 @@
+
+# Python cache files
+__pycache__/
+*.py[cod]
+
+# Spyder settings
+.spyderproject
+.spyproject/
+
+# Temporary files
+*.tmp
+*.log
